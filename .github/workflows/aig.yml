@@ -42,7 +42,7 @@ jobs:
     permissions:
       pull-requests: write
     steps:
-    - uses: hmarr/auto-approve-action@v4
+    - uses: juliangruber/approve-pull-request-action@v2
       with:
         pull-request-number: ${{ github.event.inputs.pullRequestNumber }}
       
