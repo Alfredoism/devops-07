@@ -33,7 +33,9 @@ jobs:
     - name : Print Title of PR
       env:
           TITLE: ${{ github.event.pull_request.title }}
+          NUMERO: ${{github.event.inputs.pullRequestNumber }}
       run: echo The Title of your PR is $TITLE
+           echo The Number of your PR is $NUMERO
   
   auto-approve:
     runs-on: ubuntu-latest
