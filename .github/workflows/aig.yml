@@ -1,24 +1,26 @@
-name: Check sonarqube
-on: workflow_dispatch
+on:
+  # Trigger analysis when pushing to your main branches, and when creating a pull request.
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - master
+      - develop
+      - 'releases/**'
+  pull_request:
+      types: [opened, synchronize, reopened]
+
+name: Main Workflow
 jobs:
-  build:
-    name: Build
+  sonarqube:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2.3.4
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: Set up Sonar Quality Gate
-        uses: dieuhd/sonar-quality-gate@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
-          GIT_URL: "https://api.github.com"
-          GIT_TOKEN: ${{ secrets.GIT_TOKEN }} 
-          SONAR_URL: ${{ secrets.SONAR_URL }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
-        with:
-          login:  ${{ secrets.SONAR_TOKEN }}
-          url: ${{ secrets.SONAR_URL }}
-          projectKey: ${{ secrets.SONAR_PROJECT_KEY }}
+    - uses: actions/checkout@v3
+      with:
+        # Disabling shallow clones is recommended for improving the relevancy of reporting
+        fetch-depth: 0
+    - name: SonarQube Scan
+      uses: sonarsource/sonarqube-scan-action@master
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        SONAR_URL: ${{ secrets.SONAR_HOST_URL }}
