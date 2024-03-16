@@ -1,5 +1,5 @@
 name: Check sonarqube
-on: [pull_request]
+on: workflow_dispatch
 jobs:
   build:
     name: Build
