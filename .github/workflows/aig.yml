@@ -1,3 +1,4 @@
+name: Main Workflow
 on:
   # Trigger analysis when pushing to your main branches, and when creating a pull request.
   workflow_dispatch:
@@ -10,7 +11,6 @@ on:
   pull_request:
       types: [opened, synchronize, reopened]
 
-name: Main Workflow
 jobs:
   sonarqube:
     runs-on: ubuntu-latest
@@ -23,4 +23,5 @@ jobs:
       uses: sonarsource/sonarqube-scan-action@master
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        SONAR_HOST_URL: http://innotech.northeurope.azurecontainer.io:9000
+        SONAR_HOST_URL: ${{ secrets.SONAR_URL }}
+  
