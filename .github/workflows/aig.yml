@@ -33,6 +33,8 @@ jobs:
       pull-requests: write
     steps:
     - uses: hmarr/auto-approve-action@v4
+      with:
+        pull-request-number: ${{ github.event.inputs.pullRequestNumber }}
       
   security:
     runs-on: ubuntu-latest
